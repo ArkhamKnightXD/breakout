@@ -1,9 +1,9 @@
 package knight.arkham.helpers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import knight.arkham.objects.Ball;
 import knight.arkham.objects.Brick;
+import knight.arkham.objects.Player;
 
 import static knight.arkham.helpers.Constants.*;
 
@@ -15,21 +15,21 @@ public class GameContactListener implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        Gdx.app.log("fixture A:", String.valueOf(fixtureA.getFilterData().categoryBits));
-        Gdx.app.log("fixture B:", String.valueOf(fixtureB.getFilterData().categoryBits));
-
         int collisionDefinition = fixtureA.getFilterData().categoryBits | fixtureB.getFilterData().categoryBits;
 
         switch (collisionDefinition) {
 
-//            It calls the same function in both cases.
             case BALL_BIT | PLAYER_BIT:
 
-                if (fixtureA.getFilterData().categoryBits == BALL_BIT)
+                if (fixtureA.getFilterData().categoryBits == BALL_BIT){
                     ((Ball) fixtureA.getUserData()).reverseVelocityY();
+                    ((Player) fixtureB.getUserData()).hitTheBall();
+                }
 
-                else
+                else{
                     ((Ball) fixtureB.getUserData()).reverseVelocityY();
+                    ((Player) fixtureA.getUserData()).hitTheBall();
+                }
                 break;
 
             case BALL_BIT | BRICK_BIT:
@@ -41,7 +41,7 @@ public class GameContactListener implements ContactListener {
                 }
                 else{
                     ((Ball) fixtureB.getUserData()).reverseVelocityY();
-                    ((Brick) fixtureB.getUserData()).hitByBall();
+                    ((Brick) fixtureA.getUserData()).hitByBall();
                 }
                 break;
 

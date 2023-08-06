@@ -17,7 +17,7 @@ public class Ball extends GameObject {
     public Ball(Rectangle bounds, World world) {
         super(bounds, world, "images/white.png", 6);
 
-        velocity = new Vector2(getRandomDirection(), getRandomDirection());
+        velocity = new Vector2(getRandomDirection(), -1);
     }
 
     @Override
@@ -33,14 +33,17 @@ public class Ball extends GameObject {
     }
 
     private void resetBallPosition(){
-        velocity.set(getRandomDirection(), getRandomDirection());
+        velocity.set(getRandomDirection(), -1);
 
-        body.setTransform(1000/ PIXELS_PER_METER,600/ PIXELS_PER_METER,0);
+        body.setTransform(950/ PIXELS_PER_METER,750/ PIXELS_PER_METER,0);
     }
 
     public void update(){
 
         body.setLinearVelocity(velocity.x * actualSpeed, velocity.y * actualSpeed);
+
+        if (getPixelPosition().y < 250)
+            resetBallPosition();
 
         if (Gdx.input.isKeyPressed(Input.Keys.R))
             resetBallPosition();

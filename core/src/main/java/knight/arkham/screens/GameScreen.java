@@ -45,8 +45,8 @@ public class GameScreen extends ScreenAdapter {
 
         world.setContactListener(contactListener);
 
-        player = new Player(new Rectangle(700, 350, 64, 16), world);
-        ball = new Ball(new Rectangle(1000,600, 16, 16), world);
+        player = new Player(new Rectangle(950, 350, 64, 16), world);
+        ball = new Ball(new Rectangle(950,750, 16, 16), world);
 
         rightWall = new Wall(new Rectangle(1470,FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);
         leftWall = new Wall(new Rectangle(450,FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);
@@ -68,7 +68,7 @@ public class GameScreen extends ScreenAdapter {
             positionX = 0;
 
             if (i % 2 == 0)
-                spritePath = "images/blue-brick.png";
+                spritePath = "images/light-blue-brick.png";
 
             else
                 spritePath = "images/purple-brick.png";
@@ -116,7 +116,7 @@ public class GameScreen extends ScreenAdapter {
 
     private void setGameOverScreen() {
 
-        if (player.score > 10){
+        if (Player.score > 10){
 
             winSound.play();
             game.setScreen(new MainMenuScreen());
