@@ -153,8 +153,8 @@ public class GameScreen extends ScreenAdapter {
 
             game.batch.end();
 
+//            The drawing of the hud stage should be put outside our main spriteBatch.
             hud.stage.draw();
-
         }
 
         else
