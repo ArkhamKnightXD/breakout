@@ -23,13 +23,13 @@ import static knight.arkham.helpers.Constants.*;
 public class GameScreen extends ScreenAdapter {
 
     private final Breakout game;
+    private final OrthographicCamera camera;
+    private final World world;
     private final Player player;
     private final Ball ball;
     private final Wall leftWall;
     private final Wall rightWall;
     private final Array<Brick> bricks;
-    private final OrthographicCamera camera;
-    private final World world;
     private final Sound winSound;
     private boolean isDebug;
 
@@ -108,10 +108,10 @@ public class GameScreen extends ScreenAdapter {
 
         setGameOverScreen();
 
-        game.manageExitTheGame();
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
             isDebug = !isDebug;
+
+        game.quitTheGame();
     }
 
     private void setGameOverScreen() {

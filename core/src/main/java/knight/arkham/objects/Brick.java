@@ -35,6 +35,8 @@ public class Brick extends GameObject{
         isDestroyed = true;
     }
 
+
+    @Override
     public void draw(Batch batch){
 
         if (!isDestroyed)

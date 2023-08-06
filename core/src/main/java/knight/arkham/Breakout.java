@@ -9,16 +9,15 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.screens.GameScreen;
-import knight.arkham.screens.MainMenuScreen;
 
 public class Breakout extends Game {
     public static Breakout INSTANCE;
     public SpriteBatch batch;
     public OrthographicCamera camera;
-    public int screenWidth;
-    public int screenHeight;
     public Viewport viewport;
     public Box2DDebugRenderer debugRenderer;
+    public int screenWidth;
+    public int screenHeight;
 
     public Breakout() {
 
@@ -45,7 +44,7 @@ public class Breakout extends Game {
     }
 
 
-    public void manageExitTheGame() {
+    public void quitTheGame() {
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             Gdx.app.exit();

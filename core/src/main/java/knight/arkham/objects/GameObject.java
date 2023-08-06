@@ -10,10 +10,10 @@ import com.badlogic.gdx.physics.box2d.World;
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public abstract class GameObject {
-    protected final Body body;
     protected float actualSpeed;
     protected final Rectangle actualBounds;
     protected final World actualWorld;
+    protected final Body body;
     private final Texture sprite;
 
     protected GameObject(Rectangle bounds, World world, String spritePath, float speed) {

@@ -54,8 +54,4 @@ public class Ball extends GameObject {
     }
 
     public void reverseVelocityY(){velocity.y *= -1;}
-
-    public void incrementYVelocity(){
-        velocity.y *= 1.1f;
-    }
 }

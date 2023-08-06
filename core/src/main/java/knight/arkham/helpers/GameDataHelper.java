@@ -6,21 +6,19 @@ import knight.arkham.objects.Player;
 
 public class GameDataHelper {
 
-    public static void saveGameData(int player1Score, int player2Score){
+    public static void saveGameData(){
 
         Preferences preferences = Gdx.app.getPreferences("pong-data");
 
-        preferences.putInteger("player1Score", player1Score);
-        preferences.putInteger("player2Score", player2Score);
+        preferences.putInteger("playerScore", Player.score);
 
         preferences.flush();
     }
 
-    public static void loadGameData(Player player, Player enemy){
+    public static void loadGameData(){
 
-        Preferences preferences = Gdx.app.getPreferences("pong-data");
+        Preferences preferences = Gdx.app.getPreferences("breakout-data");
 
-        player.score = preferences.getInteger("player1Score");
-        enemy.score = preferences.getInteger("player2Score");
+        Player.score = preferences.getInteger("playerScore");
     }
 }
