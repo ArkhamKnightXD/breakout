@@ -1,21 +1,20 @@
 package knight.arkham.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.Breakout;
 import knight.arkham.helpers.AssetsHelper;
 import knight.arkham.helpers.GameContactListener;
 import knight.arkham.objects.Ball;
+import knight.arkham.objects.Brick;
 import knight.arkham.objects.Player;
 import knight.arkham.objects.Wall;
 
@@ -28,15 +27,17 @@ public class GameScreen extends ScreenAdapter {
     private final Ball ball;
     private final Wall leftWall;
     private final Wall rightWall;
+    private final Array<Brick> bricks;
     private final OrthographicCamera camera;
-    private final Viewport viewport;
     private final World world;
-    private final TextureRegion[] scoreNumbers;
     private final Sound winSound;
+    private boolean isDebug;
 
     public GameScreen() {
 
         game = Breakout.INSTANCE;
+
+        camera = game.camera;
 
         world = new World(new Vector2(0, 0), true);
 
@@ -51,28 +52,49 @@ public class GameScreen extends ScreenAdapter {
         rightWall = new Wall(new Rectangle(1470,FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);
         leftWall = new Wall(new Rectangle(450,FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);
 
-        camera = new OrthographicCamera();
-
-        viewport = new FitViewport(BOX2D_FULL_SCREEN_WIDTH, BOX2D_FULL_SCREEN_HEIGHT, camera);
-
-        camera.position.set(BOX2D_FULL_SCREEN_WIDTH, BOX2D_FULL_SCREEN_HEIGHT, 0);
-
-        scoreNumbers = loadTextureSprite();
-
         winSound = AssetsHelper.loadSound("win.wav");
+
+        bricks = createBricks();
     }
 
-    private TextureRegion[] loadTextureSprite(){
+    private Array<Brick> createBricks() {
+        int positionX;
+        int positionY = 0;
+        String spritePath;
 
-        Texture textureToSplit = new Texture("images/numbers.png");
+        Array<Brick> temporalBricks = new Array<>();
 
-        return TextureRegion.split(textureToSplit, textureToSplit.getWidth() / 10, textureToSplit.getHeight())[0];
+        for (int i = 0; i < 8; i++){
+
+            positionX = 0;
+
+            if (i % 2 == 0)
+                spritePath = "images/blue-brick.png";
+
+            else
+                spritePath = "images/purple-brick.png";
+
+            for (int j = 0; j < 15; j++) {
+
+                Brick actualBrick = new Brick(
+                    new Rectangle(
+                        515 + positionX,950 - positionY, 64, 20
+                    ), world, spritePath
+                );
+
+                temporalBricks.add(actualBrick);
+                positionX += 64;
+            }
+
+            positionY += 20;
+        }
+
+        return temporalBricks;
     }
-
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
+        game.viewport.update(width, height);
     }
 
     private void update(){
@@ -85,6 +107,9 @@ public class GameScreen extends ScreenAdapter {
         setGameOverScreen();
 
         game.manageExitTheGame();
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
+            isDebug = !isDebug;
     }
 
     private void setGameOverScreen() {
@@ -103,45 +128,29 @@ public class GameScreen extends ScreenAdapter {
         update();
 
         draw();
+
     }
 
     private void draw() {
 
         ScreenUtils.clear(0,0,0,0);
 
-        game.batch.setProjectionMatrix(camera.combined);
+        if (!isDebug){
+            game.batch.setProjectionMatrix(camera.combined);
 
-        game.batch.begin();
+            game.batch.begin();
 
-        rightWall.draw(game.batch);
+            for (Brick brick : bricks)
+                brick.draw(game.batch);
 
-        drawScoreNumbers(game.batch, player.score, 500);
+            player.draw(game.batch);
+            ball.draw(game.batch);
 
-        leftWall.draw(game.batch);
-
-        player.draw(game.batch);
-        ball.draw(game.batch);
-
-        game.batch.end();
-    }
-
-    private void drawScoreNumbers(SpriteBatch batch, int scoreNumber, float positionX){
-
-        final float width = 48;
-        final float height = 64;
-
-        if (scoreNumber < 10)
-            batch.draw(scoreNumbers[scoreNumber], positionX/PIXELS_PER_METER, 900/PIXELS_PER_METER,
-                width/PIXELS_PER_METER , height/PIXELS_PER_METER);
-
-        else {
-
-            batch.draw(scoreNumbers[Integer.parseInt(("" + scoreNumber).substring(0, 1))], positionX/PIXELS_PER_METER,
-                900/PIXELS_PER_METER , width/PIXELS_PER_METER , height/PIXELS_PER_METER);
-
-            batch.draw(scoreNumbers[Integer.parseInt(("" + scoreNumber).substring(1, 2))], positionX/PIXELS_PER_METER +20/PIXELS_PER_METER,
-                900/PIXELS_PER_METER, width/PIXELS_PER_METER, height/PIXELS_PER_METER);
+            game.batch.end();
         }
+
+        else
+            game.debugRenderer.render(world, camera.combined);
     }
 
     @Override

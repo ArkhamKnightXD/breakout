@@ -41,7 +41,7 @@ public class Ball extends GameObject {
 
         body.setLinearVelocity(velocity.x * actualSpeed, velocity.y * actualSpeed);
 
-        if (getPixelPosition().x > 1450){
+        if (getPixelPosition().y > 1450){
             gameScreen.getPlayer().score += 1;
             resetBallPosition();
         }
@@ -56,10 +56,7 @@ public class Ball extends GameObject {
 
     public void reverseVelocityY(){
         velocity.y *= -1;
-    }
-
-    public void incrementXVelocity(){
-        velocity.x *= 1.1f;
+        Gdx.app.log("velocity:", String.valueOf(velocity.y));
     }
 
     public void incrementYVelocity(){
