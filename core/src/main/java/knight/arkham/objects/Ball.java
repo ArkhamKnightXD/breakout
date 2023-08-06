@@ -8,16 +8,19 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
+import knight.arkham.scenes.Hud;
 
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public class Ball extends GameObject {
     private final Vector2 velocity;
+    public static int livesQuantity;
 
     public Ball(Rectangle bounds, World world) {
         super(bounds, world, "images/white.png", 6);
 
         velocity = new Vector2(getRandomDirection(), -1);
+        livesQuantity = 2;
     }
 
     @Override
@@ -35,15 +38,17 @@ public class Ball extends GameObject {
     private void resetBallPosition(){
         velocity.set(getRandomDirection(), -1);
 
-        body.setTransform(950/ PIXELS_PER_METER,750/ PIXELS_PER_METER,0);
+        body.setTransform(950/ PIXELS_PER_METER,700/ PIXELS_PER_METER,0);
     }
 
     public void update(){
 
         body.setLinearVelocity(velocity.x * actualSpeed, velocity.y * actualSpeed);
 
-        if (getPixelPosition().y < 250)
+        if (livesQuantity > 0 && getPixelPosition().y < 250){
+            Hud.takeAvailableBalls();
             resetBallPosition();
+        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.R))
             resetBallPosition();

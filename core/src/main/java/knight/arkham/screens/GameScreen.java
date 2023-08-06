@@ -17,6 +17,7 @@ import knight.arkham.objects.Ball;
 import knight.arkham.objects.Brick;
 import knight.arkham.objects.Player;
 import knight.arkham.objects.Wall;
+import knight.arkham.scenes.Hud;
 
 import static knight.arkham.helpers.Constants.*;
 
@@ -24,6 +25,7 @@ public class GameScreen extends ScreenAdapter {
 
     private final Breakout game;
     private final OrthographicCamera camera;
+    private final Hud hud;
     private final World world;
     private final Player player;
     private final Ball ball;
@@ -46,7 +48,7 @@ public class GameScreen extends ScreenAdapter {
         world.setContactListener(contactListener);
 
         player = new Player(new Rectangle(950, 350, 64, 16), world);
-        ball = new Ball(new Rectangle(950,750, 16, 16), world);
+        ball = new Ball(new Rectangle(950,700, 16, 16), world);
 
         rightWall = new Wall(new Rectangle(1470,FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);
         leftWall = new Wall(new Rectangle(450,FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);
@@ -54,6 +56,7 @@ public class GameScreen extends ScreenAdapter {
         winSound = AssetsHelper.loadSound("win.wav");
 
         bricks = createBricks();
+        hud = new Hud();
     }
 
     private Array<Brick> createBricks() {
@@ -77,7 +80,7 @@ public class GameScreen extends ScreenAdapter {
 
                 Brick actualBrick = new Brick(
                     new Rectangle(
-                        515 + positionX,950 - positionY, 64, 20
+                        515 + positionX,900 - positionY, 64, 20
                     ), world, spritePath
                 );
 
@@ -149,6 +152,9 @@ public class GameScreen extends ScreenAdapter {
             ball.draw(game.batch);
 
             game.batch.end();
+
+            hud.stage.draw();
+
         }
 
         else
@@ -168,5 +174,6 @@ public class GameScreen extends ScreenAdapter {
         leftWall.dispose();
         player.dispose();
         ball.dispose();
+        hud.dispose();
     }
 }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.helpers.AssetsHelper;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
+import knight.arkham.scenes.Hud;
 
 public class Brick extends GameObject{
     private boolean isDestroyed;
@@ -46,7 +47,7 @@ public class Brick extends GameObject{
     public void hitByBall() {
         setToDestroy = true;
 
-        Player.score += 1;
+        Hud.addScore();
 
         Sound sound = AssetsHelper.loadSound("okay.wav");
 
