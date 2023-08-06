@@ -41,13 +41,12 @@ public class GameScreen extends ScreenAdapter {
 
         world = new World(new Vector2(0, 0), true);
 
-        GameContactListener contactListener = new GameContactListener(this);
+        GameContactListener contactListener = new GameContactListener();
 
         world.setContactListener(contactListener);
 
         player = new Player(new Rectangle(700, 350, 64, 16), world);
-
-        ball = new Ball(new Rectangle(1000,600, 16, 16), this);
+        ball = new Ball(new Rectangle(1000,600, 16, 16), world);
 
         rightWall = new Wall(new Rectangle(1470,FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);
         leftWall = new Wall(new Rectangle(450,FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);
@@ -103,6 +102,9 @@ public class GameScreen extends ScreenAdapter {
 
         player.update();
         ball.update();
+
+        for (Brick brick : bricks)
+            brick.update();
 
         setGameOverScreen();
 
@@ -167,10 +169,4 @@ public class GameScreen extends ScreenAdapter {
         player.dispose();
         ball.dispose();
     }
-
-    public Ball getBall() {return ball;}
-
-    public Player getPlayer() {return player;}
-
-    public World getWorld() {return world;}
 }

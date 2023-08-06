@@ -2,15 +2,12 @@ package knight.arkham.helpers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
-import knight.arkham.screens.GameScreen;
+import knight.arkham.objects.Ball;
+import knight.arkham.objects.Brick;
+
+import static knight.arkham.helpers.Constants.*;
 
 public class GameContactListener implements ContactListener {
-
-    private final GameScreen gameScreen;
-
-    public GameContactListener(GameScreen gameScreen) {
-        this.gameScreen = gameScreen;
-    }
 
     @Override
     public void beginContact(Contact contact) {
@@ -18,22 +15,45 @@ public class GameContactListener implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        Gdx.app.log("fixture A:", fixtureA.getUserData().toString());
-        Gdx.app.log("fixture B:", fixtureB.getUserData().toString());
+        Gdx.app.log("fixture A:", String.valueOf(fixtureA.getFilterData().categoryBits));
+        Gdx.app.log("fixture B:", String.valueOf(fixtureB.getFilterData().categoryBits));
 
-        if (fixtureA.getUserData() == ContactType.BALL || fixtureB.getUserData() == ContactType.BALL) {
+        int collisionDefinition = fixtureA.getFilterData().categoryBits | fixtureB.getFilterData().categoryBits;
 
-            if (fixtureA.getUserData() == ContactType.PLAYER || fixtureB.getUserData() == ContactType.PLAYER) {
-                gameScreen.getBall().reverseVelocityY();
-                gameScreen.getBall().incrementYVelocity();
-            }
+        switch (collisionDefinition) {
 
-            else if (fixtureA.getUserData() == ContactType.BRICK || fixtureB.getUserData() == ContactType.BRICK){
-                gameScreen.getBall().reverseVelocityY();
-            }
+//            It calls the same function in both cases.
+            case BALL_BIT | PLAYER_BIT:
 
-            else
-                gameScreen.getBall().reverseVelocityX();
+                if (fixtureA.getFilterData().categoryBits == BALL_BIT)
+                    ((Ball) fixtureA.getUserData()).reverseVelocityY();
+
+                else
+                    ((Ball) fixtureB.getUserData()).reverseVelocityY();
+                break;
+
+            case BALL_BIT | BRICK_BIT:
+
+                if (fixtureA.getFilterData().categoryBits == BALL_BIT){
+                    ((Ball) fixtureA.getUserData()).reverseVelocityY();
+                    ((Brick) fixtureB.getUserData()).hitByBall();
+
+                }
+                else{
+                    ((Ball) fixtureB.getUserData()).reverseVelocityY();
+                    ((Brick) fixtureB.getUserData()).hitByBall();
+                }
+                break;
+
+
+            case BALL_BIT | WALL_BIT:
+
+                if (fixtureA.getFilterData().categoryBits == BALL_BIT)
+                    ((Ball) fixtureA.getUserData()).reverseVelocityX();
+
+                else
+                    ((Ball) fixtureB.getUserData()).reverseVelocityX();
+                break;
         }
     }
 

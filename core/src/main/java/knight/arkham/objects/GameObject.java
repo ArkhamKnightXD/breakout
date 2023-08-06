@@ -5,37 +5,40 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import knight.arkham.helpers.Box2DBody;
-import knight.arkham.helpers.Box2DHelper;
+import com.badlogic.gdx.physics.box2d.World;
 
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public abstract class GameObject {
     protected final Body body;
     protected float actualSpeed;
-    private final Rectangle bounds;
+    protected final Rectangle actualBounds;
+    protected final World actualWorld;
     private final Texture sprite;
 
-    protected GameObject(Box2DBody gameObjectStructure, String spritePath, float speed) {
-        body = Box2DHelper.createBody(gameObjectStructure);
-        bounds = gameObjectStructure.bounds;
+    protected GameObject(Rectangle bounds, World world, String spritePath, float speed) {
+        actualBounds = bounds;
+        actualWorld = world;
         sprite = new Texture(spritePath);
         actualSpeed = speed;
+        body = createBody();
     }
 
-    private Rectangle getBoundsWithPPMCalculation() {
+    protected abstract Body createBody();
+
+    private Rectangle getDrawBounds() {
 
         return new Rectangle(
-            body.getPosition().x - (bounds.width / 2 / PIXELS_PER_METER),
-            body.getPosition().y - (bounds.height / 2 / PIXELS_PER_METER),
-            bounds.width / PIXELS_PER_METER,
-            bounds.height / PIXELS_PER_METER
+            body.getPosition().x - (actualBounds.width / 2 / PIXELS_PER_METER),
+            body.getPosition().y - (actualBounds.height / 2 / PIXELS_PER_METER),
+            actualBounds.width / PIXELS_PER_METER,
+            actualBounds.height / PIXELS_PER_METER
         );
     }
 
     public void draw(Batch batch) {
 
-        Rectangle actualBounds = getBoundsWithPPMCalculation();
+        Rectangle actualBounds = getDrawBounds();
 
         batch.draw(sprite, actualBounds.x, actualBounds.y, actualBounds.width, actualBounds.height);
     }

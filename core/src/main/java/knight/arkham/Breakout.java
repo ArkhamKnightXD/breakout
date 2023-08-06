@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import knight.arkham.screens.GameScreen;
 import knight.arkham.screens.MainMenuScreen;
 
-/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Breakout extends Game {
     public static Breakout INSTANCE;
     public SpriteBatch batch;
@@ -41,7 +41,7 @@ public class Breakout extends Game {
 
         debugRenderer = new Box2DDebugRenderer();
 
-        setScreen(new MainMenuScreen());
+        setScreen(new GameScreen());
     }
 
 

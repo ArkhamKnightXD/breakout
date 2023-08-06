@@ -4,8 +4,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import knight.arkham.objects.Ball;
+import knight.arkham.objects.Brick;
+import knight.arkham.objects.Player;
 
-import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
+import static knight.arkham.helpers.Constants.*;
 
 public class Box2DHelper {
 
@@ -20,9 +23,23 @@ public class Box2DHelper {
 
         fixtureDef.density = box2DBody.density;
 
+        //For fixed levels collisions it is not necessary to define a maskBit for my objects.
+        // Because the collisions with each one of the objects is very specific.
+        if (box2DBody.userData instanceof Ball)
+            fixtureDef.filter.categoryBits = BALL_BIT;
+
+        else if (box2DBody.userData instanceof Player)
+            fixtureDef.filter.categoryBits = PLAYER_BIT;
+
+        else if (box2DBody.userData instanceof Brick)
+            fixtureDef.filter.categoryBits = BRICK_BIT;
+
+        else
+            fixtureDef.filter.categoryBits = WALL_BIT;
+
         Body body = createBox2DBodyByType(box2DBody);
 
-        body.createFixture(fixtureDef).setUserData(box2DBody.contactType);
+        body.createFixture(fixtureDef).setUserData(box2DBody.userData);
 
         shape.dispose();
 

@@ -4,26 +4,27 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
 import knight.arkham.helpers.Box2DBody;
-import knight.arkham.helpers.ContactType;
-import knight.arkham.screens.GameScreen;
+import knight.arkham.helpers.Box2DHelper;
 
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public class Ball extends GameObject {
     private final Vector2 velocity;
-    private final GameScreen gameScreen;
 
-    public Ball(Rectangle rectangle, GameScreen gameScreen) {
+    public Ball(Rectangle bounds, World world) {
+        super(bounds, world, "images/white.png", 6);
 
-//  Le doy poca densidad, pues si le doy 1 esta empujará a mi player y enemy de lugar
-        super(
-            new Box2DBody(rectangle, 0.1f, gameScreen.getWorld(), ContactType.BALL),
-            "images/white.png", 6
-        );
-
-        this.gameScreen = gameScreen;
         velocity = new Vector2(getRandomDirection(), getRandomDirection());
+    }
+
+    @Override
+    protected Body createBody() {
+        return Box2DHelper.createBody(
+            new Box2DBody(actualBounds, 0.1f, actualWorld, this)
+        );
     }
 
     private float getRandomDirection(){
@@ -41,11 +42,6 @@ public class Ball extends GameObject {
 
         body.setLinearVelocity(velocity.x * actualSpeed, velocity.y * actualSpeed);
 
-        if (getPixelPosition().y > 1450){
-            gameScreen.getPlayer().score += 1;
-            resetBallPosition();
-        }
-
         if (Gdx.input.isKeyPressed(Input.Keys.R))
             resetBallPosition();
     }
@@ -54,10 +50,7 @@ public class Ball extends GameObject {
         velocity.x *= -1;
     }
 
-    public void reverseVelocityY(){
-        velocity.y *= -1;
-        Gdx.app.log("velocity:", String.valueOf(velocity.y));
-    }
+    public void reverseVelocityY(){velocity.y *= -1;}
 
     public void incrementYVelocity(){
         velocity.y *= 1.1f;

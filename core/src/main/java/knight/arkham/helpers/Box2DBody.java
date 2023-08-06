@@ -9,14 +9,14 @@ public class Box2DBody {
     public BodyDef.BodyType bodyType;
     public float density;
     public World world;
-    public ContactType contactType;
+    public Object userData;
 
-    public Box2DBody(Rectangle bounds, float density, World world, ContactType contactType) {
+    public Box2DBody(Rectangle bounds, float density, World world, Object userData) {
 
         this.bounds = bounds;
         this.bodyType = density > 0 ? BodyDef.BodyType.DynamicBody : BodyDef.BodyType.StaticBody;
         this.density = density;
         this.world = world;
-        this.contactType = contactType;
+        this.userData = userData;
     }
 }
