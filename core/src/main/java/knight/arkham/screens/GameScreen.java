@@ -175,5 +175,8 @@ public class GameScreen extends ScreenAdapter {
         player.dispose();
         ball.dispose();
         hud.dispose();
+
+        for (Brick brick : bricks)
+            brick.dispose();
     }
 }
