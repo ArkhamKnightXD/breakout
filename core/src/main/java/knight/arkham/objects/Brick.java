@@ -51,6 +51,6 @@ public class Brick extends GameObject{
 
         Sound sound = AssetsHelper.loadSound("okay.wav");
 
-        sound.play();
+        sound.play(0.6f);
     }
 }

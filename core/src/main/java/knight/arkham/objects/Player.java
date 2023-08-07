@@ -43,6 +43,6 @@ public class Player extends GameObject {
 
         Sound sound = AssetsHelper.loadSound("drop.wav");
 
-        sound.play();
+        sound.play(0.6f);
     }
 }

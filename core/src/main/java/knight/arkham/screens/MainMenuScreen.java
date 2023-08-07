@@ -2,6 +2,7 @@ package knight.arkham.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -22,6 +23,7 @@ public class MainMenuScreen extends ScreenAdapter {
     private final Skin skin;
     private final Stage stage;
     private final Viewport viewport;
+    private final Music music;
     public MainMenuScreen() {
 
         game = Breakout.INSTANCE;
@@ -55,6 +57,12 @@ public class MainMenuScreen extends ScreenAdapter {
         });
 
         Gdx.input.setInputProcessor(stage);
+
+        music = AssetsHelper.loadMusic("pixel3.mp3");
+
+        music.play();
+        music.setVolume(0.2f);
+        music.setLooping(true);
     }
 
     private TextButton addButton(Table table, String buttonName) {
@@ -90,5 +98,6 @@ public class MainMenuScreen extends ScreenAdapter {
 
         stage.dispose();
         skin.dispose();
+        music.dispose();
     }
 }
