@@ -1,9 +1,6 @@
 package knight.arkham.scenes;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.Breakout;
+import knight.arkham.helpers.AssetsHelper;
 import knight.arkham.screens.GameScreen;
 
 import static knight.arkham.helpers.Constants.FULL_SCREEN_HEIGHT;
@@ -47,15 +45,7 @@ public class PauseMenu {
 
         stage.addActor(table);
 
-        AssetManager assetManager = new AssetManager();
-
-        AssetDescriptor<Skin> uiSkin = new AssetDescriptor<>("images/ui/uiskin.json", Skin.class, new SkinLoader.SkinParameter("images/ui/uiskin.atlas"));
-
-        assetManager.load(uiSkin);
-
-        assetManager.finishLoading();
-
-        skin = assetManager.get(uiSkin);
+        skin = AssetsHelper.loadUiSkin();
 
         addButton(table, "Resume").addListener(new ClickListener() {
             @Override
@@ -75,8 +65,18 @@ public class PauseMenu {
             }
         });
 
+        addButton(table, "Quit").addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.exit();
+
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
         Gdx.input.setInputProcessor(stage);
     }
+
 
     private TextButton addButton(Table table, String buttonName) {
 

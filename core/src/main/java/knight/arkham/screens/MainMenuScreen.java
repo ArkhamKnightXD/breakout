@@ -2,9 +2,6 @@ package knight.arkham.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -15,6 +12,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.Breakout;
+import knight.arkham.helpers.AssetsHelper;
 
 import static knight.arkham.helpers.Constants.FULL_SCREEN_HEIGHT;
 import static knight.arkham.helpers.Constants.FULL_SCREEN_WIDTH;
@@ -28,15 +26,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
         game = Breakout.INSTANCE;
 
-        AssetManager assetManager = new AssetManager();
-
-        AssetDescriptor<Skin> uiSkin = new AssetDescriptor<>("images/ui/uiskin.json", Skin.class, new SkinLoader.SkinParameter("images/ui/uiskin.atlas"));
-
-        assetManager.load(uiSkin);
-
-        assetManager.finishLoading();
-
-        skin = assetManager.get(uiSkin);
+        skin = AssetsHelper.loadUiSkin();
 
         viewport = new ExtendViewport(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT);
 
