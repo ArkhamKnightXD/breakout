@@ -18,14 +18,15 @@ import knight.arkham.objects.Brick;
 import knight.arkham.objects.Player;
 import knight.arkham.objects.Wall;
 import knight.arkham.scenes.Hud;
+import knight.arkham.scenes.PauseMenu;
 
 import static knight.arkham.helpers.Constants.*;
 
 public class GameScreen extends ScreenAdapter {
-
     private final Breakout game;
     private final OrthographicCamera camera;
     private final Hud hud;
+    private final PauseMenu pauseMenu;
     private final World world;
     private final Player player;
     private final Ball ball;
@@ -34,6 +35,7 @@ public class GameScreen extends ScreenAdapter {
     private final Array<Brick> bricks;
     private final Sound winSound;
     private boolean isDebug;
+    public static boolean isGamePaused;
 
     public GameScreen() {
 
@@ -57,6 +59,9 @@ public class GameScreen extends ScreenAdapter {
 
         bricks = createBricks();
         hud = new Hud();
+        pauseMenu = new PauseMenu();
+
+        isGamePaused = false;
     }
 
     private Array<Brick> createBricks() {
@@ -114,6 +119,9 @@ public class GameScreen extends ScreenAdapter {
         if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
             isDebug = !isDebug;
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
+            isGamePaused = !isGamePaused;
+
         game.quitTheGame();
     }
 
@@ -130,15 +138,22 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
 
-        update();
+        ScreenUtils.clear(0,0,0,0);
 
-        draw();
+        if (!isGamePaused){
+            update();
+            draw();
+        }
 
+        else {
+
+//            The act method is necessary if we want that the button react to the hover animation.
+            pauseMenu.stage.act();
+            pauseMenu.stage.draw();
+        }
     }
 
     private void draw() {
-
-        ScreenUtils.clear(0,0,0,0);
 
         if (!isDebug){
             game.batch.setProjectionMatrix(camera.combined);
@@ -175,6 +190,7 @@ public class GameScreen extends ScreenAdapter {
         player.dispose();
         ball.dispose();
         hud.dispose();
+        pauseMenu.dispose();
 
         for (Brick brick : bricks)
             brick.dispose();
