@@ -3,6 +3,7 @@ package knight.arkham.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
@@ -34,6 +35,7 @@ public class GameScreen extends ScreenAdapter {
     private final Wall rightWall;
     private final Array<Brick> bricks;
     private final Sound winSound;
+    private final Music gameMusic;
     private boolean isDebug;
     public static boolean isGamePaused;
 
@@ -56,6 +58,11 @@ public class GameScreen extends ScreenAdapter {
         leftWall = new Wall(new Rectangle(450,FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);
 
         winSound = AssetsHelper.loadSound("win.wav");
+
+        gameMusic = AssetsHelper.loadMusic("pixel3.mp3");
+
+        gameMusic.play();
+        gameMusic.setLooping(true);
 
         bricks = createBricks();
         hud = new Hud();
@@ -143,6 +150,8 @@ public class GameScreen extends ScreenAdapter {
         if (!isGamePaused){
             update();
             draw();
+
+            gameMusic.setVolume(0.5f);
         }
 
         else {
@@ -150,6 +159,8 @@ public class GameScreen extends ScreenAdapter {
 //            The act method is necessary if we want that the button react to the hover animation.
             pauseMenu.stage.act();
             pauseMenu.stage.draw();
+
+            gameMusic.setVolume(0.2f);
         }
     }
 
@@ -191,6 +202,8 @@ public class GameScreen extends ScreenAdapter {
         ball.dispose();
         hud.dispose();
         pauseMenu.dispose();
+        gameMusic.dispose();
+        winSound.dispose();
 
         for (Brick brick : bricks)
             brick.dispose();

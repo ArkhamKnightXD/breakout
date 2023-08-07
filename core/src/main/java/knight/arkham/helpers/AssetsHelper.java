@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
@@ -11,6 +12,10 @@ public class AssetsHelper {
 
     public static Sound loadSound(String filenamePath){
         return Gdx.audio.newSound(Gdx.files.internal("sounds/"+ filenamePath));
+    }
+
+    public static Music loadMusic(String filenamePath){
+        return Gdx.audio.newMusic(Gdx.files.internal("music/"+ filenamePath));
     }
 
     public static Skin loadUiSkin() {
