@@ -14,6 +14,8 @@ import knight.arkham.Breakout;
 import knight.arkham.helpers.AssetsHelper;
 import knight.arkham.helpers.GameContactListener;
 import knight.arkham.objects.*;
+import knight.arkham.objects.structures.Ceiling;
+import knight.arkham.objects.structures.Wall;
 import knight.arkham.scenes.Hud;
 import knight.arkham.scenes.PauseMenu;
 

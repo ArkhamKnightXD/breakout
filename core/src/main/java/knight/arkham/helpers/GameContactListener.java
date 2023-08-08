@@ -4,6 +4,8 @@ import com.badlogic.gdx.physics.box2d.*;
 import knight.arkham.objects.Ball;
 import knight.arkham.objects.Brick;
 import knight.arkham.objects.Player;
+import knight.arkham.objects.structures.Ceiling;
+import knight.arkham.objects.structures.Wall;
 
 import static knight.arkham.helpers.Constants.*;
 
@@ -48,20 +50,28 @@ public class GameContactListener implements ContactListener {
 
             case BALL_BIT | WALL_BIT:
 
-                if (fixtureA.getFilterData().categoryBits == BALL_BIT)
+                if (fixtureA.getFilterData().categoryBits == BALL_BIT){
                     ((Ball) fixtureA.getUserData()).reverseVelocityX();
+                    ((Wall) fixtureB.getUserData()).hitByTheBall();
+                }
 
-                else
+                else{
                     ((Ball) fixtureB.getUserData()).reverseVelocityX();
+                    ((Wall) fixtureA.getUserData()).hitByTheBall();
+                }
                 break;
 
             case BALL_BIT | CEILING_BIT:
 
-                if (fixtureA.getFilterData().categoryBits == BALL_BIT)
+                if (fixtureA.getFilterData().categoryBits == BALL_BIT){
                     ((Ball) fixtureA.getUserData()).reverseVelocityY();
+                    ((Ceiling) fixtureB.getUserData()).hitByTheBall();
+                }
 
-                else
+                else{
                     ((Ball) fixtureB.getUserData()).reverseVelocityY();
+                    ((Ceiling) fixtureA.getUserData()).hitByTheBall();
+                }
                 break;
         }
     }

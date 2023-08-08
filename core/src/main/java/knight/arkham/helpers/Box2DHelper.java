@@ -2,7 +2,7 @@ package knight.arkham.helpers;
 
 import com.badlogic.gdx.physics.box2d.*;
 import knight.arkham.objects.Brick;
-import knight.arkham.objects.Ceiling;
+import knight.arkham.objects.structures.Ceiling;
 import knight.arkham.objects.Player;
 
 import static knight.arkham.helpers.Constants.*;
