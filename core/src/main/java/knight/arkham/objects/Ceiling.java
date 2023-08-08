@@ -9,7 +9,7 @@ import knight.arkham.helpers.Box2DHelper;
 public class Ceiling extends GameObject {
 
     public Ceiling(World world) {
-        super(new Rectangle(950, 952, 1024, 16), world, "images/wall.png", 0);
+        super(new Rectangle(950, 952, 1024, 16), world, "images/wall.png");
     }
 
     @Override

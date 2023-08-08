@@ -13,8 +13,10 @@ import knight.arkham.scenes.Hud;
 public class Brick extends GameObject{
     private boolean isDestroyed;
     private boolean setToDestroy;
+    private final Sound hitSound;
     public Brick(Rectangle bounds, World world, String spritePath) {
-        super(bounds, world, spritePath, 0);
+        super(bounds, world, spritePath);
+        hitSound = AssetsHelper.loadSound("okay.wav");
     }
 
     @Override
@@ -44,13 +46,17 @@ public class Brick extends GameObject{
             super.draw(batch);
     }
 
-    public void hitByBall() {
+    public void hitByTheBall() {
         setToDestroy = true;
 
         Hud.addScore();
 
-        Sound sound = AssetsHelper.loadSound("okay.wav");
+        hitSound.play(0.6f);
+    }
 
-        sound.play(0.6f);
+    @Override
+    public void dispose() {
+        hitSound.dispose();
+        super.dispose();
     }
 }

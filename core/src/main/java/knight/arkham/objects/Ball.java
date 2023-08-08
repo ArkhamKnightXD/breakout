@@ -13,12 +13,13 @@ import knight.arkham.scenes.Hud;
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public class Ball extends GameObject {
-    private final Vector2 velocity;
     public static int livesQuantity;
+    private final float speed;
+    private final Vector2 velocity;
 
     public Ball(Rectangle bounds, World world) {
-        super(bounds, world, "images/ball.png", 6);
-
+        super(bounds, world, "images/ball.png");
+        speed = 6;
         velocity = new Vector2(getRandomDirection(), -1);
         livesQuantity = 2;
     }
@@ -43,7 +44,7 @@ public class Ball extends GameObject {
 
     public void update(){
 
-        body.setLinearVelocity(velocity.x * actualSpeed, velocity.y * actualSpeed);
+        body.setLinearVelocity(velocity.x * speed, velocity.y * speed);
 
         if (livesQuantity > 0 && getPixelPosition().y < 250){
             Hud.takeAvailableBalls();
@@ -52,6 +53,10 @@ public class Ball extends GameObject {
 
         if (Gdx.input.isKeyPressed(Input.Keys.R))
             resetBallPosition();
+    }
+
+    private Vector2 getPixelPosition() {
+        return new Vector2(body.getPosition().x * PIXELS_PER_METER, body.getPosition().y * PIXELS_PER_METER);
     }
 
     public void reverseVelocityX(){

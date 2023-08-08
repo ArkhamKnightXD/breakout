@@ -9,7 +9,7 @@ import knight.arkham.helpers.Box2DHelper;
 public class Wall extends GameObject {
 
     public Wall(Rectangle bounds, World world) {
-        super(bounds, world, "images/wall.png", 0);
+        super(bounds, world, "images/wall.png");
     }
 
     @Override

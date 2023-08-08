@@ -3,24 +3,21 @@ package knight.arkham.objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
 import static knight.arkham.helpers.Constants.PIXELS_PER_METER;
 
 public abstract class GameObject {
-    protected float actualSpeed;
     protected final Rectangle actualBounds;
     protected final World actualWorld;
     protected final Body body;
     private final Texture sprite;
 
-    protected GameObject(Rectangle bounds, World world, String spritePath, float speed) {
+    protected GameObject(Rectangle bounds, World world, String spritePath) {
         actualBounds = bounds;
         actualWorld = world;
         sprite = new Texture(spritePath);
-        actualSpeed = speed;
         body = createBody();
     }
 
@@ -41,10 +38,6 @@ public abstract class GameObject {
         Rectangle actualBounds = getDrawBounds();
 
         batch.draw(sprite, actualBounds.x, actualBounds.y, actualBounds.width, actualBounds.height);
-    }
-
-    protected Vector2 getPixelPosition() {
-        return new Vector2(body.getPosition().x * PIXELS_PER_METER, body.getPosition().y * PIXELS_PER_METER);
     }
 
     public void dispose() {sprite.dispose();}

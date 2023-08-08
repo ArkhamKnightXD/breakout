@@ -36,12 +36,12 @@ public class GameContactListener implements ContactListener {
 
                 if (fixtureA.getFilterData().categoryBits == BALL_BIT){
                     ((Ball) fixtureA.getUserData()).reverseVelocityY();
-                    ((Brick) fixtureB.getUserData()).hitByBall();
+                    ((Brick) fixtureB.getUserData()).hitByTheBall();
 
                 }
                 else{
                     ((Ball) fixtureB.getUserData()).reverseVelocityY();
-                    ((Brick) fixtureA.getUserData()).hitByBall();
+                    ((Brick) fixtureA.getUserData()).hitByTheBall();
                 }
                 break;
 
