@@ -48,7 +48,7 @@ public class GameScreen extends ScreenAdapter {
         world.setContactListener(contactListener);
 
         player = new Player(new Rectangle(950, 350, 64, 16), world);
-        ball = new Ball(new Rectangle(950,700, 16, 16), world);
+        ball = new Ball(new Rectangle(950,700, 20, 20), world);
 
         ceiling = new Ceiling(world);
         rightWall = new Wall(new Rectangle(1467,FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);

@@ -17,7 +17,7 @@ public class Ball extends GameObject {
     public static int livesQuantity;
 
     public Ball(Rectangle bounds, World world) {
-        super(bounds, world, "images/white.png", 6);
+        super(bounds, world, "images/ball.png", 6);
 
         velocity = new Vector2(getRandomDirection(), -1);
         livesQuantity = 2;
@@ -25,7 +25,7 @@ public class Ball extends GameObject {
 
     @Override
     protected Body createBody() {
-        return Box2DHelper.createBody(
+        return Box2DHelper.createBallBody(
             new Box2DBody(actualBounds, 0.1f, actualWorld, this)
         );
     }
