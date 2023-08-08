@@ -54,6 +54,15 @@ public class GameContactListener implements ContactListener {
                 else
                     ((Ball) fixtureB.getUserData()).reverseVelocityX();
                 break;
+
+            case BALL_BIT | CEILING_BIT:
+
+                if (fixtureA.getFilterData().categoryBits == BALL_BIT)
+                    ((Ball) fixtureA.getUserData()).reverseVelocityY();
+
+                else
+                    ((Ball) fixtureB.getUserData()).reverseVelocityY();
+                break;
         }
     }
 

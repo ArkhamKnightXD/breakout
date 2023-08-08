@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import knight.arkham.objects.Ball;
 import knight.arkham.objects.Brick;
+import knight.arkham.objects.Ceiling;
 import knight.arkham.objects.Player;
 
 import static knight.arkham.helpers.Constants.*;
@@ -33,6 +34,9 @@ public class Box2DHelper {
 
         else if (box2DBody.userData instanceof Brick)
             fixtureDef.filter.categoryBits = BRICK_BIT;
+
+        else if (box2DBody.userData instanceof Ceiling)
+            fixtureDef.filter.categoryBits = CEILING_BIT;
 
         else
             fixtureDef.filter.categoryBits = WALL_BIT;

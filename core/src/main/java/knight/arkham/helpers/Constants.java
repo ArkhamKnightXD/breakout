@@ -10,4 +10,5 @@ public class Constants {
     public static final short PLAYER_BIT = 2;
     public static final short BRICK_BIT = 4;
     public static final short WALL_BIT = 8;
+    public static final short CEILING_BIT = 16;
 }

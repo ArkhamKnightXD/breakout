@@ -13,10 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Breakout;
 import knight.arkham.helpers.AssetsHelper;
 import knight.arkham.helpers.GameContactListener;
-import knight.arkham.objects.Ball;
-import knight.arkham.objects.Brick;
-import knight.arkham.objects.Player;
-import knight.arkham.objects.Wall;
+import knight.arkham.objects.*;
 import knight.arkham.scenes.Hud;
 import knight.arkham.scenes.PauseMenu;
 
@@ -30,6 +27,7 @@ public class GameScreen extends ScreenAdapter {
     private final World world;
     private final Player player;
     private final Ball ball;
+    private final Ceiling ceiling;
     private final Wall leftWall;
     private final Wall rightWall;
     private final Array<Brick> bricks;
@@ -52,8 +50,9 @@ public class GameScreen extends ScreenAdapter {
         player = new Player(new Rectangle(950, 350, 64, 16), world);
         ball = new Ball(new Rectangle(950,700, 16, 16), world);
 
-        rightWall = new Wall(new Rectangle(1470,FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);
-        leftWall = new Wall(new Rectangle(450,FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);
+        ceiling = new Ceiling(world);
+        rightWall = new Wall(new Rectangle(1467,FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);
+        leftWall = new Wall(new Rectangle(453,FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);
 
         winSound = AssetsHelper.loadSound("win.wav");
 
@@ -187,6 +186,7 @@ public class GameScreen extends ScreenAdapter {
 
         rightWall.dispose();
         leftWall.dispose();
+        ceiling.dispose();
         player.dispose();
         ball.dispose();
         hud.dispose();
