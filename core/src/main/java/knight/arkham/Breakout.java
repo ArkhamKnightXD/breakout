@@ -2,13 +2,12 @@ package knight.arkham;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import knight.arkham.screens.GameScreen;
+import knight.arkham.screens.MainMenuScreen;
 
 public class Breakout extends Game {
     public static Breakout INSTANCE;
@@ -40,13 +39,6 @@ public class Breakout extends Game {
 
         debugRenderer = new Box2DDebugRenderer();
 
-        setScreen(new GameScreen());
-    }
-
-
-    public void quitTheGame() {
-
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
-            Gdx.app.exit();
+        setScreen(new MainMenuScreen());
     }
 }

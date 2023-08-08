@@ -114,30 +114,22 @@ public class GameScreen extends ScreenAdapter {
 
         for (Brick brick : bricks)
             brick.update();
-
-        setGameOverScreen();
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
-            isDebug = !isDebug;
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
-            isGamePaused = !isGamePaused;
-
-        game.quitTheGame();
     }
 
-    private void setGameOverScreen() {
+    private void gameOver() {
 
-        if (Player.score > 120){
+        if (Player.score == 120){
 
             winSound.play();
+            game.setScreen(new MainMenuScreen());
+        } else if (Ball.livesQuantity < 0) {
             game.setScreen(new MainMenuScreen());
         }
     }
 
 
     @Override
-    public void render(float delta) {
+    public void render(float deltaTime) {
 
         ScreenUtils.clear(0,0,0,0);
 
@@ -152,6 +144,14 @@ public class GameScreen extends ScreenAdapter {
             pauseMenu.stage.act();
             pauseMenu.stage.draw();
         }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
+            isDebug = !isDebug;
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
+            isGamePaused = !isGamePaused;
+
+        gameOver();
     }
 
     private void draw() {

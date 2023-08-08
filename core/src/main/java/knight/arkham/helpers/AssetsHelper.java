@@ -10,12 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class AssetsHelper {
 
-    public static Sound loadSound(String filenamePath){
-        return Gdx.audio.newSound(Gdx.files.internal("sounds/"+ filenamePath));
+    public static Sound loadSound(String filename){
+        return Gdx.audio.newSound(Gdx.files.internal("sounds/"+ filename));
     }
 
-    public static Music loadMusic(String filenamePath){
-        return Gdx.audio.newMusic(Gdx.files.internal("music/"+ filenamePath));
+    public static Music loadMusic(String filename){
+        return Gdx.audio.newMusic(Gdx.files.internal("music/"+ filename));
     }
 
     public static Skin loadUiSkin() {
