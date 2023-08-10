@@ -2,12 +2,10 @@ package knight.arkham.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import knight.arkham.helpers.AssetsHelper;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 import knight.arkham.scenes.Hud;
@@ -18,14 +16,12 @@ public class Ball extends GameObject {
     public static int livesQuantity;
     private final float speed;
     private final Vector2 velocity;
-    private final Sound fallSound;
 
     public Ball(Rectangle bounds, World world) {
-        super(bounds, world, "images/ball.png");
+        super(bounds, world, "images/ball.png", "fall.wav");
         speed = 6;
         velocity = new Vector2(getRandomDirection(), -1);
         livesQuantity = 2;
-        fallSound = AssetsHelper.loadSound("fall.wav");
     }
 
     @Override
@@ -54,7 +50,7 @@ public class Ball extends GameObject {
 
             //Maybe there is a way to avoid using this if.
             if (livesQuantity > 0){
-                fallSound.play(0.5f);
+                collisionSound.play(0.5f);
                 resetBallPosition();
             }
 
@@ -74,10 +70,4 @@ public class Ball extends GameObject {
     }
 
     public void reverseVelocityY(){velocity.y *= -1;}
-
-    @Override
-    public void dispose() {
-        fallSound.dispose();
-        super.dispose();
-    }
 }

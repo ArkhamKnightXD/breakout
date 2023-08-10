@@ -2,11 +2,9 @@ package knight.arkham.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import knight.arkham.helpers.AssetsHelper;
 import knight.arkham.helpers.Box2DBody;
 import knight.arkham.helpers.Box2DHelper;
 
@@ -14,13 +12,11 @@ public class Player extends GameObject {
     public static int score;
     private final float speed;
     private float velocityX;
-    private final Sound hitSound;
 
     public Player(Rectangle bounds, World world) {
-        super(bounds, world, "images/players.png");
+        super(bounds, world, "images/players.png", "drop.wav");
         speed = 10;
         score = 0;
-        hitSound = AssetsHelper.loadSound("drop.wav");
     }
 
     @Override
@@ -45,12 +41,6 @@ public class Player extends GameObject {
 
     public void hitTheBall() {
 
-        hitSound.play(0.6f);
-    }
-
-    @Override
-    public void dispose() {
-        hitSound.dispose();
-        super.dispose();
+        collisionSound.play(0.6f);
     }
 }
