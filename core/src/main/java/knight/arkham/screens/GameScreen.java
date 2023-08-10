@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import knight.arkham.Breakout;
 import knight.arkham.helpers.AssetsHelper;
 import knight.arkham.helpers.GameContactListener;
+import knight.arkham.helpers.GameDataHelper;
 import knight.arkham.objects.*;
 import knight.arkham.objects.structures.Ceiling;
 import knight.arkham.objects.structures.Wall;
@@ -121,8 +122,10 @@ public class GameScreen extends ScreenAdapter {
         if (Player.score == 120){
 
             winSound.play();
+            GameDataHelper.saveHighScore();
             game.setScreen(new MainMenuScreen());
         } else if (Ball.livesQuantity < 0) {
+            GameDataHelper.saveHighScore();
             game.setScreen(new MainMenuScreen());
         }
     }

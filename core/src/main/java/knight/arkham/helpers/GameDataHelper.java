@@ -6,19 +6,22 @@ import knight.arkham.objects.Player;
 
 public class GameDataHelper {
 
-    public static void saveGameData(){
+    public static void saveHighScore(){
 
-        Preferences preferences = Gdx.app.getPreferences("pong-data");
+        Preferences preferences = Gdx.app.getPreferences("breakout-data");
+
+        if (Player.score < loadHighScore())
+            return;
 
         preferences.putInteger("playerScore", Player.score);
 
         preferences.flush();
     }
 
-    public static void loadGameData(){
+    public static int loadHighScore(){
 
         Preferences preferences = Gdx.app.getPreferences("breakout-data");
 
-        Player.score = preferences.getInteger("playerScore");
+        return preferences.getInteger("playerScore");
     }
 }

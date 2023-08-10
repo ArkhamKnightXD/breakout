@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import knight.arkham.Breakout;
 import knight.arkham.helpers.AssetsHelper;
+import knight.arkham.helpers.GameDataHelper;
 import knight.arkham.screens.GameScreen;
 
 import static knight.arkham.helpers.Constants.FULL_SCREEN_HEIGHT;
@@ -38,9 +39,12 @@ public class PauseMenu {
         table.setFillParent(true);
 
         Label pauseLabel = new Label("Pause Menu", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        Label scoreLabel = new Label("High Score: " + GameDataHelper.loadHighScore(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         table.add(pauseLabel).expandX().padBottom(15);
+        table.row();
 
+        table.add(scoreLabel).expandX().padBottom(15);
         table.row();
 
         stage.addActor(table);
