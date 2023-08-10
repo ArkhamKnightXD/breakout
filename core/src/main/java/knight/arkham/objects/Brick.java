@@ -12,6 +12,7 @@ public class Brick extends GameObject {
     private boolean isDestroyed;
     private boolean setToDestroy;
     private final Rectangle drawBounds;
+
     public Brick(Rectangle bounds, World world, String spritePath) {
         super(bounds, world, spritePath, "okay.wav");
         drawBounds = getDrawBounds();
