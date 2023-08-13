@@ -17,6 +17,7 @@ public class Hud {
     public final Stage stage;
     private static Label scoreLabel;
     private static Label livesLabel;
+
     public Hud() {
 
         Viewport viewport = new ExtendViewport(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT);

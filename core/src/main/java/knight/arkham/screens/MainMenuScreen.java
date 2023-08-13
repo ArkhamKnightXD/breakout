@@ -24,6 +24,7 @@ public class MainMenuScreen extends ScreenAdapter {
     private final Stage stage;
     private final Viewport viewport;
     private final Music music;
+
     public MainMenuScreen() {
 
         game = Breakout.INSTANCE;
@@ -74,6 +75,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
         return textButton;
     }
+
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);

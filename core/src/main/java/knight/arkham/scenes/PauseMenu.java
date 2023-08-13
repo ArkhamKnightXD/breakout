@@ -21,7 +21,6 @@ import static knight.arkham.helpers.Constants.FULL_SCREEN_HEIGHT;
 import static knight.arkham.helpers.Constants.FULL_SCREEN_WIDTH;
 
 public class PauseMenu {
-
     private final Breakout game;
     public final Stage stage;
     private final Skin skin;
@@ -80,7 +79,6 @@ public class PauseMenu {
 
         Gdx.input.setInputProcessor(stage);
     }
-
 
     private TextButton addButton(Table table, String buttonName) {
 
