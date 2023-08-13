@@ -5,8 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -25,9 +27,11 @@ import static knight.arkham.helpers.Constants.*;
 public class GameScreen extends ScreenAdapter {
     private final Breakout game;
     private final OrthographicCamera camera;
+    public SpriteBatch batch;
     private final Hud hud;
     private final PauseMenu pauseMenu;
     private final World world;
+    private final Box2DDebugRenderer debugRenderer;
     private final Player player;
     private final Ball ball;
     private final Ceiling ceiling;
@@ -44,7 +48,10 @@ public class GameScreen extends ScreenAdapter {
 
         camera = game.camera;
 
+        batch = new SpriteBatch();
+
         world = new World(new Vector2(0, 0), true);
+        debugRenderer = new Box2DDebugRenderer();
 
         GameContactListener contactListener = new GameContactListener();
 
@@ -160,24 +167,24 @@ public class GameScreen extends ScreenAdapter {
     private void draw() {
 
         if (!isDebug){
-            game.batch.setProjectionMatrix(camera.combined);
+            batch.setProjectionMatrix(camera.combined);
 
-            game.batch.begin();
+            batch.begin();
 
             for (Brick brick : bricks)
-                brick.draw(game.batch);
+                brick.draw(batch);
 
-            player.draw(game.batch);
-            ball.draw(game.batch);
+            player.draw(batch);
+            ball.draw(batch);
 
-            game.batch.end();
+            batch.end();
 
 //            The drawing of the hud stage should be put outside our main spriteBatch.
             hud.stage.draw();
         }
 
         else
-            game.debugRenderer.render(world, camera.combined);
+            debugRenderer.render(world, camera.combined);
     }
 
     @Override
@@ -195,8 +202,11 @@ public class GameScreen extends ScreenAdapter {
         player.dispose();
         ball.dispose();
         hud.dispose();
+        debugRenderer.dispose();
         pauseMenu.dispose();
         winSound.dispose();
+        world.dispose();
+        batch.dispose();
 
         for (Brick brick : bricks)
             brick.dispose();
