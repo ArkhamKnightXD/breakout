@@ -72,6 +72,7 @@ public class GameScreen extends ScreenAdapter {
     private Array<Brick> createBricks() {
         int positionX;
         int positionY = 0;
+        int brickPoints = 8;
         String spritePath;
 
         Array<Brick> temporalBricks = new Array<>();
@@ -88,10 +89,11 @@ public class GameScreen extends ScreenAdapter {
 
             for (int j = 0; j < 15; j++) {
 
-                temporalBricks.add(new Brick(positionX, positionY, world, spritePath));
+                temporalBricks.add(new Brick(positionX, positionY, world, spritePath, brickPoints));
                 positionX += 64;
             }
 
+            brickPoints--;
             positionY += 20;
         }
 
@@ -116,7 +118,7 @@ public class GameScreen extends ScreenAdapter {
 
     private void gameOver() {
 
-        if (Player.score == 120) {
+        if (Player.score == bricks.size) {
 
             winSound.play();
             GameDataHelper.saveHighScore();

@@ -12,14 +12,16 @@ public class Brick extends GameObject {
     private boolean isDestroyed;
     private boolean setToDestroy;
     private final Rectangle drawBounds;
+    private final int brickPoints;
 
-    public Brick(int positionX, int positionY, World world, String spritePath) {
+    public Brick(int positionX, int positionY, World world, String spritePath, int brickPoints) {
         super(
             new Rectangle(
                 515 + positionX,
                 900 - positionY, 64, 20
             ), world, spritePath, "okay.wav"
         );
+        this.brickPoints = brickPoints;
         drawBounds = getDrawBounds();
     }
 
@@ -52,7 +54,7 @@ public class Brick extends GameObject {
     public void hitByTheBall() {
         setToDestroy = true;
 
-        Hud.addScore();
+        Hud.addScore(brickPoints);
 
         collisionSound.play(0.6f);
     }

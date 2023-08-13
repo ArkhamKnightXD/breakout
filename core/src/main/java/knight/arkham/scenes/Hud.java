@@ -40,9 +40,9 @@ public class Hud {
         stage.addActor(table);
     }
 
-    public static void addScore() {
+    public static void addScore(int brickPoints) {
 
-        Player.score += 1;
+        Player.score += brickPoints;
 
         scoreLabel.setText(Player.score);
     }
