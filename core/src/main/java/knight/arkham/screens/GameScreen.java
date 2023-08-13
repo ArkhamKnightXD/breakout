@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -31,7 +30,6 @@ public class GameScreen extends ScreenAdapter {
     private final Hud hud;
     private final PauseMenu pauseMenu;
     private final World world;
-    private final Box2DDebugRenderer debugRenderer;
     private final Player player;
     private final Ball ball;
     private final Ceiling ceiling;
@@ -39,7 +37,6 @@ public class GameScreen extends ScreenAdapter {
     private final Wall rightWall;
     private final Array<Brick> bricks;
     private final Sound winSound;
-    private boolean isDebug;
     public static boolean isGamePaused;
 
     public GameScreen() {
@@ -51,18 +48,17 @@ public class GameScreen extends ScreenAdapter {
         batch = new SpriteBatch();
 
         world = new World(new Vector2(0, 0), true);
-        debugRenderer = new Box2DDebugRenderer();
 
         GameContactListener contactListener = new GameContactListener();
 
         world.setContactListener(contactListener);
 
         player = new Player(new Rectangle(950, 350, 64, 16), world);
-        ball = new Ball(new Rectangle(950,700, 20, 20), world);
+        ball = new Ball(new Rectangle(950, 700, 20, 20), world);
 
         ceiling = new Ceiling(world);
-        rightWall = new Wall(new Rectangle(1467,FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);
-        leftWall = new Wall(new Rectangle(453,FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);
+        rightWall = new Wall(new Rectangle(1467, FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);
+        leftWall = new Wall(new Rectangle(453, FULL_SCREEN_HEIGHT, 50, FULL_SCREEN_HEIGHT), world);
 
         winSound = AssetsHelper.loadSound("win.wav");
 
@@ -80,7 +76,7 @@ public class GameScreen extends ScreenAdapter {
 
         Array<Brick> temporalBricks = new Array<>();
 
-        for (int i = 0; i < 8; i++){
+        for (int i = 0; i < 8; i++) {
 
             positionX = 0;
 
@@ -92,13 +88,7 @@ public class GameScreen extends ScreenAdapter {
 
             for (int j = 0; j < 15; j++) {
 
-                Brick actualBrick = new Brick(
-                    new Rectangle(
-                        515 + positionX,900 - positionY, 64, 20
-                    ), world, spritePath
-                );
-
-                temporalBricks.add(actualBrick);
+                temporalBricks.add(new Brick(positionX, positionY, world, spritePath));
                 positionX += 64;
             }
 
@@ -113,7 +103,7 @@ public class GameScreen extends ScreenAdapter {
         game.viewport.update(width, height);
     }
 
-    private void update(){
+    private void update() {
 
         world.step(1 / 60f, 6, 2);
 
@@ -126,7 +116,7 @@ public class GameScreen extends ScreenAdapter {
 
     private void gameOver() {
 
-        if (Player.score == 120){
+        if (Player.score == 120) {
 
             winSound.play();
             GameDataHelper.saveHighScore();
@@ -141,14 +131,12 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float deltaTime) {
 
-        ScreenUtils.clear(0,0,0,0);
+        ScreenUtils.clear(0, 0, 0, 0);
 
-        if (!isGamePaused){
+        if (!isGamePaused) {
             update();
             draw();
-        }
-
-        else {
+        } else {
 
 //            The act method is necessary if we want that the button react to the hover animation.
             pauseMenu.stage.act();
@@ -156,9 +144,6 @@ public class GameScreen extends ScreenAdapter {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
-            isDebug = !isDebug;
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F2))
             isGamePaused = !isGamePaused;
 
         gameOver();
@@ -166,25 +151,20 @@ public class GameScreen extends ScreenAdapter {
 
     private void draw() {
 
-        if (!isDebug){
-            batch.setProjectionMatrix(camera.combined);
+        batch.setProjectionMatrix(camera.combined);
 
-            batch.begin();
+        batch.begin();
 
-            for (Brick brick : bricks)
-                brick.draw(batch);
+        for (Brick brick : bricks)
+            brick.draw(batch);
 
-            player.draw(batch);
-            ball.draw(batch);
+        player.draw(batch);
+        ball.draw(batch);
 
-            batch.end();
+        batch.end();
 
 //            The drawing of the hud stage should be put outside our main spriteBatch.
-            hud.stage.draw();
-        }
-
-        else
-            debugRenderer.render(world, camera.combined);
+        hud.stage.draw();
     }
 
     @Override
@@ -202,7 +182,6 @@ public class GameScreen extends ScreenAdapter {
         player.dispose();
         ball.dispose();
         hud.dispose();
-        debugRenderer.dispose();
         pauseMenu.dispose();
         winSound.dispose();
         world.dispose();

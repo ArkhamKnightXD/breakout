@@ -13,8 +13,13 @@ public class Brick extends GameObject {
     private boolean setToDestroy;
     private final Rectangle drawBounds;
 
-    public Brick(Rectangle bounds, World world, String spritePath) {
-        super(bounds, world, spritePath, "okay.wav");
+    public Brick(int positionX, int positionY, World world, String spritePath) {
+        super(
+            new Rectangle(
+                515 + positionX,
+                900 - positionY, 64, 20
+            ), world, spritePath, "okay.wav"
+        );
         drawBounds = getDrawBounds();
     }
 
@@ -25,7 +30,7 @@ public class Brick extends GameObject {
         );
     }
 
-    public void update(){
+    public void update() {
 
         if (setToDestroy && !isDestroyed)
             destroyBrick();
@@ -38,7 +43,7 @@ public class Brick extends GameObject {
     }
 
     @Override
-    public void draw(Batch batch){
+    public void draw(Batch batch) {
 
         if (!isDestroyed)
             batch.draw(sprite, drawBounds.x, drawBounds.y, drawBounds.width, drawBounds.height);

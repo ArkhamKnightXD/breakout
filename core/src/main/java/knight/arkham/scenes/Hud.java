@@ -29,8 +29,8 @@ public class Hud {
 
         table.setFillParent(true);
 
-        scoreLabel = new Label(String.format("%d", Player.score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        livesLabel = new Label(String.format("%d", Ball.livesQuantity), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        scoreLabel = new Label("0", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        livesLabel = new Label("2", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         Label worldLabel = new Label("LEVEL 01", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         table.add(scoreLabel).expandX().padTop(10);
@@ -44,14 +44,14 @@ public class Hud {
 
         Player.score += 1;
 
-        scoreLabel.setText(String.format("%d", Player.score));
+        scoreLabel.setText(Player.score);
     }
 
     public static void takeAvailableBalls() {
 
         Ball.livesQuantity -= 1;
 
-        livesLabel.setText(String.format("%d", Ball.livesQuantity));
+        livesLabel.setText(Ball.livesQuantity);
     }
 
     public void dispose(){
