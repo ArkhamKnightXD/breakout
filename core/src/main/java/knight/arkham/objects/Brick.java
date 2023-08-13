@@ -11,8 +11,8 @@ import knight.arkham.scenes.Hud;
 public class Brick extends GameObject {
     private boolean isDestroyed;
     private boolean setToDestroy;
-    private final Rectangle drawBounds;
     private final int brickPoints;
+    private final Rectangle drawBounds;
 
     public Brick(int positionX, int positionY, World world, String spritePath, int brickPoints) {
         super(
