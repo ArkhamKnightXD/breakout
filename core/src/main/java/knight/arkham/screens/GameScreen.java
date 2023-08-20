@@ -118,7 +118,7 @@ public class GameScreen extends ScreenAdapter {
 
     private void gameOver() {
 
-        if (Player.score == bricks.size) {
+        if (Player.score == 540) {
 
             winSound.play();
             GameDataHelper.saveHighScore();
