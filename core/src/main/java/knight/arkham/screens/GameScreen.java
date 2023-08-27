@@ -38,12 +38,16 @@ public class GameScreen extends ScreenAdapter {
     private final Array<Brick> bricks;
     private final Sound winSound;
     public static boolean isGamePaused;
+    private float accumulator;
+    private final float TIME_STEP;
 
     public GameScreen() {
 
         game = Breakout.INSTANCE;
 
         camera = game.camera;
+
+        TIME_STEP = 1/240f;
 
         batch = new SpriteBatch();
 
@@ -107,13 +111,45 @@ public class GameScreen extends ScreenAdapter {
 
     private void update() {
 
-        world.step(1 / 60f, 6, 2);
-
         player.update();
         ball.update();
 
         for (Brick brick : bricks)
             brick.update();
+    }
+    private void doPhysicsTimeStep(float deltaTime) {
+
+        float frameTime = Math.min(deltaTime, 0.25f);
+
+        accumulator += frameTime;
+
+        while(accumulator >= TIME_STEP) {
+            world.step(TIME_STEP, 6,2);
+            accumulator -= TIME_STEP;
+        }
+    }
+
+    @Override
+    public void render(float deltaTime) {
+
+        ScreenUtils.clear(0, 0, 0, 0);
+
+        if (!isGamePaused) {
+            update();
+            draw();
+
+            doPhysicsTimeStep(deltaTime);
+        } else {
+
+//            The act method is necessary if we want that the button react to the hover animation.
+            pauseMenu.stage.act();
+            pauseMenu.stage.draw();
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
+            isGamePaused = !isGamePaused;
+
+        gameOver();
     }
 
     private void gameOver() {
@@ -127,28 +163,6 @@ public class GameScreen extends ScreenAdapter {
             GameDataHelper.saveHighScore();
             game.setScreen(new MainMenuScreen());
         }
-    }
-
-
-    @Override
-    public void render(float deltaTime) {
-
-        ScreenUtils.clear(0, 0, 0, 0);
-
-        if (!isGamePaused) {
-            update();
-            draw();
-        } else {
-
-//            The act method is necessary if we want that the button react to the hover animation.
-            pauseMenu.stage.act();
-            pauseMenu.stage.draw();
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
-            isGamePaused = !isGamePaused;
-
-        gameOver();
     }
 
     private void draw() {
