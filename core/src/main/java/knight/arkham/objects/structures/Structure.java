@@ -8,12 +8,12 @@ import knight.arkham.helpers.AssetsHelper;
 public abstract class Structure {
     protected final Rectangle actualBounds;
     protected final World actualWorld;
-    private final Sound hitSound;
+    private final Sound collisionSound;
 
     protected Structure(Rectangle bounds, World world) {
         actualBounds = bounds;
         actualWorld = world;
-        hitSound = AssetsHelper.loadSound("magic.wav");
+        collisionSound = AssetsHelper.loadSound("magic.wav");
         createBody();
     }
 
@@ -21,10 +21,10 @@ public abstract class Structure {
 
     public void hitByTheBall() {
 
-        hitSound.play();
+        collisionSound.play();
     }
 
     public void dispose(){
-        hitSound.dispose();
+        collisionSound.dispose();
     }
 }
