@@ -32,7 +32,7 @@ public abstract class GameObject {
     protected abstract Body createBody();
 
     protected Rectangle getDrawBounds() {
-//
+
         return new Rectangle(
             body.getPosition().x - (actualBounds.width / 2 / PIXELS_PER_METER),
             body.getPosition().y - (actualBounds.height / 2 / PIXELS_PER_METER),

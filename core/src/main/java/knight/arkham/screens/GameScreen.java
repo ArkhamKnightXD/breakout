@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -31,7 +30,6 @@ public class GameScreen extends ScreenAdapter {
     private final Hud hud;
     private final PauseMenu pauseMenu;
     private final World world;
-    private final Box2DDebugRenderer debugRenderer;
     private final Player player;
     private final Ball ball;
     private final Ceiling ceiling;
@@ -73,7 +71,6 @@ public class GameScreen extends ScreenAdapter {
         pauseMenu = new PauseMenu();
 
         isGamePaused = false;
-        debugRenderer = new Box2DDebugRenderer();
     }
 
     private Array<Brick> createBricks() {
@@ -184,9 +181,6 @@ public class GameScreen extends ScreenAdapter {
 
 //            The drawing of the hud stage should be put outside our main spriteBatch.
         hud.stage.draw();
-
-        debugRenderer.render(world, camera.combined);
-
     }
 
     @Override
